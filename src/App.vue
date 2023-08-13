@@ -37,7 +37,7 @@ export default {
     return {
       chatInputValue: '',
       initialInputHeight: 0,
-      API_KEY: process.env.VUE_APP_API_KEY, // Use an environment variable for your API key
+      API_KEY: '{{VUE_APP_API_KEY}}',
     };
   },
   mounted() {
@@ -56,7 +56,7 @@ export default {
     async getChatResponse(incomingChatDiv) {
       const API_URL = "https://api.openai.com/v1/completions";
       const pElement = document.createElement("p");
-
+      console.log(`Bearer ${this.API_KEY}`)
       const requestOptions = {
         method: "POST",
         headers: {
