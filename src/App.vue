@@ -18,12 +18,10 @@
             required
           ></textarea>
           <!-- Bind handleOutgoingChat method to the click event of the send button -->
-          <span @click="handleOutgoingChat" class="material-symbols-rounded">send</span>
+          <span @click="handleOutgoingChat">➡️</span>
         </div>
         <div class="typing-controls">
-          <!-- Bind toggleTheme and deleteChats methods to the click events of the respective buttons -->
-          <span @click="toggleTheme" ref="themeButton" class="material-symbols-rounded">light_mode</span>
-          <span @click="deleteChats" class="material-symbols-rounded">delete</span>
+          <span @click="deleteChats" ref="themeButton" >🗑</span>
         </div>
       </div>
     </div>
@@ -46,9 +44,6 @@ export default {
   },
   methods: {
     loadDataFromLocalstorage() {
-      const themeColor = localStorage.getItem("themeColor");
-      document.body.classList.toggle("light-mode", themeColor === "light_mode");
-      this.$refs.themeButton.innerText = document.body.classList.contains("light-mode") ? "dark_mode" : "light_mode";
       const defaultText = `<div class="default-text"><h1>ChatGPT Clone</h1><p>Start a conversation and explore the power of AI.<br> Your chat history will be displayed here.</p></div>`;
       this.$refs.chatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
       this.$refs.chatContainer.scrollTo(0, this.$refs.chatContainer.scrollHeight);
@@ -89,7 +84,9 @@ export default {
     handleOutgoingChat() {
       if(!this.chatInputValue) return;
 
-      const html = `<div class="chat-content"><div class="chat-details"><img src="/images/user.jpg" alt="user-img"><p>${this.chatInputValue}</p></div></div>`;
+      const userImage = require('@/assets/user.jpg');
+      const html = `<div class="chat-content"><div class="chat-details"><img src="${userImage}" alt="user-img"><p>${this.chatInputValue}</p></div></div>`;
+
       const outgoingChatDiv = this.createChatElement(html, "outgoing");
       this.$refs.chatContainer.querySelector(".default-text")?.remove();
       this.$refs.chatContainer.appendChild(outgoingChatDiv);
@@ -103,7 +100,9 @@ export default {
       return chatDiv;
     },
     showTypingAnimation() {
-      const html = `<div class="chat-content"><div class="chat-details"><img src="/images/chatbot.jpg" alt="chatbot-img"><div class="typing-animation"><div class="typing-dot" style="--delay: 0.2s"></div><div class="typing-dot" style="--delay: 0.3s"></div><div class="typing-dot" style="--delay: 0.4s"></div></div></div><span onclick="this.copyResponse" class="material-symbols-rounded">content_copy</span></div>`;
+      const chatbotImage = require('@/assets/chatbot.jpg');
+      const html = `<div class="chat-content"><div class="chat-details"><img src="${chatbotImage}" alt="chatbot-img"><div class="typing-animation"><div class="typing-dot" style="--delay: 0.2s"></div><div class="typing-dot" style="--delay: 0.3s"></div><div class="typing-dot" style="--delay: 0.4s"></div></div></div><span onclick="this.copyResponse" class="material-symbols-rounded">📋</span></div>`;
+
       const incomingChatDiv = this.createChatElement(html, "incoming");
       this.$refs.chatContainer.appendChild(incomingChatDiv);
       this.$refs.chatContainer.scrollTo(0, this.$refs.chatContainer.scrollHeight);
@@ -134,7 +133,7 @@ export default {
       const reponseTextElement = event.target.parentElement.querySelector("p");
       navigator.clipboard.writeText(reponseTextElement.textContent);
       event.target.textContent = "done";
-      setTimeout(() => event.target.textContent = "content_copy", 1000);
+      setTimeout(() => event.target.textContent = "📋", 1000);
     }
   }
 };
