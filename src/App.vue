@@ -35,7 +35,7 @@ export default {
     return {
       chatInputValue: '',
       initialInputHeight: 0,
-      API_KEY: '{{VUE_APP_API_KEY}}',
+      API_KEY: '{{API_KEY}}',
     };
   },
   mounted() {
@@ -84,8 +84,7 @@ export default {
     handleOutgoingChat() {
       if(!this.chatInputValue) return;
 
-      const userImage = require('@/assets/user.jpg');
-      const html = `<div class="chat-content"><div class="chat-details"><img src="${userImage}" alt="user-img"><p>${this.chatInputValue}</p></div></div>`;
+      const html = `<div class="chat-content"><div class="chat-details"><img src="https://www.educative.io/udata/X1nD5R6RMRQ/user.jpg" alt="user-img"><p>${this.chatInputValue}</p></div></div>`;
 
       const outgoingChatDiv = this.createChatElement(html, "outgoing");
       this.$refs.chatContainer.querySelector(".default-text")?.remove();
@@ -100,8 +99,7 @@ export default {
       return chatDiv;
     },
     showTypingAnimation() {
-      const chatbotImage = require('@/assets/chatbot.jpg');
-      const html = `<div class="chat-content"><div class="chat-details"><img src="${chatbotImage}" alt="chatbot-img"><div class="typing-animation"><div class="typing-dot" style="--delay: 0.2s"></div><div class="typing-dot" style="--delay: 0.3s"></div><div class="typing-dot" style="--delay: 0.4s"></div></div></div><span onclick="this.copyResponse" class="material-symbols-rounded">📋</span></div>`;
+      const html = `<div class="chat-content"><div class="chat-details"><img src="https://www.educative.io/udata/1kRY7JnVZDn/chatbot.jpg" alt="chatbot-img"><div class="typing-animation"><div class="typing-dot" style="--delay: 0.2s"></div><div class="typing-dot" style="--delay: 0.3s"></div><div class="typing-dot" style="--delay: 0.4s"></div></div></div><span onclick="this.copyResponse" class="material-symbols-rounded">📋</span></div>`;
 
       const incomingChatDiv = this.createChatElement(html, "incoming");
       this.$refs.chatContainer.appendChild(incomingChatDiv);
