@@ -49,7 +49,7 @@ export default {
       this.$refs.chatContainer.scrollTo(0, this.$refs.chatContainer.scrollHeight);
     },
     async getChatResponse(incomingChatDiv) {
-      const API_URL = "https://api.openai.com/v1/completions";
+      const API_URL = "https://api.openai.com/v1/chat/completions";
       const pElement = document.createElement("p");
       console.log(`Bearer ${this.API_KEY}`)
       const requestOptions = {
@@ -58,19 +58,18 @@ export default {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${this.API_KEY}`
         },
+
         body: JSON.stringify({
-          model: "text-davinci-003",
-          prompt: this.chatInputValue,
-          max_tokens: 2048,
-          temperature: 0.2,
-          n: 1,
-          stop: null
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: this.chatInputValue }],
+            max_tokens: 150,
+            temperature: 0.7
         })
       };
 
       try {
         const response = await (await fetch(API_URL, requestOptions)).json();
-        pElement.textContent = response.choices[0].text.trim();
+        pElement.textContent = response.choices[0].message.content.trim();
       } catch (error) {
         pElement.classList.add("error");
         pElement.textContent = "Oops! Something went wrong while retrieving the response. Please try again.";
